@@ -77,7 +77,7 @@ class Tool:  # This class is responsible about Tools
 
 	def copy(self):  # Copy installed tool from tmp to current directory
 		print 'Copying the tool : ',
-		if not os.system('cp -af /tmp/' + self.name + ' ./'):
+		if not os.system('rsync -ruaK --delete /tmp/' + self.name + '/.[^.]*' + ' ./' + self.name):
 			print green + 'Ok' + end
 		else:
 			print red + 'Error' + end
