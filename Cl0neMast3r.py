@@ -51,8 +51,8 @@ class Tool:  # This class is responsible about Tools
 		return self.strpTime(str(u.replace('T', ' ')[:-1]))
 
 	def lastInstall(self):  # Returns last installation for the tool on PC
-		if self.exists(self.name + '/install'):
-			return self.strpTime(open(self.name + '/install', 'r').read())
+		if self.exists(self.name + '/cl0Cl0neMast3r_update_time'):
+			return self.strpTime(open(self.name + '/cl0Cl0neMast3r_update_time', 'r').read())
 		else:
 			return "Couldn't retrieve the date"
 
@@ -60,7 +60,9 @@ class Tool:  # This class is responsible about Tools
 		print 'Installing: ' + self.name + ': ',
 		if not os.system('git clone -q ' + self.url + ' ' + ('/tmp/' if path else '') + self.name):
 			print green + 'Ok' + end
-			open(('/tmp/' if path else '') + self.name + '/install', 'w').write(Tool.strfTime(datetime.now()))
+			file_handler = open(('/tmp/' if path else '') + self.name + '/cl0Cl0neMast3r_update_time', 'w')
+			file_handler.write(Tool.strfTime(datetime.now()))
+			file_handler.close()
 		else:
 			print red + 'Error' + end
 
@@ -77,7 +79,7 @@ class Tool:  # This class is responsible about Tools
 
 	def copy(self):  # Copy installed tool from tmp to current directory
 		print 'Copying the tool : ',
-		if not os.system('rsync -ruaK --delete --include ".*" /tmp/' + self.name + '/.[^.]*' + ' ./' + self.name):
+		if not os.system('rsync -ruaK --delete --include ".*" /tmp/' + self.name + '/*' + ' ./' + self.name):
 			print green + 'Ok' + end
 		else:
 			print red + 'Error' + end
